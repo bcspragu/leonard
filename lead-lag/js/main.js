@@ -14,8 +14,6 @@ function updateGraph(){
   var tmin = nanDefault(parseFloat($('.tmin').val()),-0.2);
   var tmax = nanDefault(parseFloat($('.tmax').val()),0.3);
   var deg = nanDefault(parseFloat($('.deg').val()),90);
-  deg = fixDeg(deg);
-  $('.deg').val(deg);
   var base = [];
   var shifted = [];
   var coefficient = omega == 1 ? "" : omega;
@@ -62,7 +60,7 @@ function updateGraph(){
       labelMargin: 10
     }
   });
-  var ll = leadLag(deg,omega)
+  var ll = leadLag(fixDeg(deg),omega)
   $('.note').text('The function '+shifted_label+'  is '+ll.ll+' '+base_label+' by '+ll.delay+'  ms');
 }
 
