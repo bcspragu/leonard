@@ -19,14 +19,14 @@ function updateGraph(){
   var base = [];
   var shifted = [];
   var coefficient = omega == 1 ? "" : omega;
-  var base_label = "cos("+coefficient+"x)";
+  var base_label = "cos("+coefficient+"t)";
   var shifted_label = "";
   if(deg > 0){
-    shifted_label = "cos("+coefficient+"x+"+deg+"°)";
+    shifted_label = "cos("+coefficient+"t+"+deg+"°)";
   }else if (deg < 0){
-    shifted_label = "cos("+coefficient+"x"+deg+"°)";
+    shifted_label = "cos("+coefficient+"t"+deg+"°)";
   }else{
-    shifted_label = "cos("+coefficient+"x)";
+    shifted_label = "cos("+coefficient+"t)";
   }
   var factor = omega/10;
   for(var i = tmin*1000; i < tmax*1000; i += 1/factor){
