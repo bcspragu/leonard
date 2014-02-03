@@ -11,10 +11,11 @@ $(function(){
 
 function updateGraph(){
   var amp = nanDefault(parseFloat($('.amp').val()),1);
+  var graph = nanDefault(parseFloat($('.graph').val()),5);
   var omega = nanDefault(parseFloat($('.omega').val()),50);
   var deg = nanDefault(parseFloat($('.deg').val()),0);
-  var amp_min = -Math.abs(amp);
-  var amp_max = Math.abs(amp);
+  var graph_min = -Math.abs(graph);
+  var graph_max = Math.abs(graph);
   var base = [];
   var vertical = [];
   var tmin = -0.2;
@@ -22,8 +23,8 @@ function updateGraph(){
   var non_zero_axis = tmin < 0 && tmax > 0;
 
   if(non_zero_axis){
-    vertical.push([0,amp_min]);
-    vertical.push([0,amp_max]);
+    vertical.push([0,graph_min]);
+    vertical.push([0,graph_max]);
   }
 
   var amp_str = "";
@@ -80,8 +81,8 @@ function updateGraph(){
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'},
-      min: amp_min,
-      max: amp_max
+      min: graph_min,
+      max: graph_max
     }],
     grid: grid
       });
