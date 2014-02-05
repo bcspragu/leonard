@@ -1,6 +1,6 @@
 $(function(){
   var graph = $('.plot');
-  graph.height(graph.width()/2.5);
+  graph.height(graph.width()/2);
   updateGraph();
 
   $('.update-graph').click(function(){
@@ -24,7 +24,7 @@ function updateGraph(){
 
   var coef1 = omega1 == 1 ? "" : omega1;
   var coef2 = omega2 == 1 ? "" : omega2;
-  var coef3 = omega1-omega2 == 1 ? "" : omega1-omega2;
+  var coef3 = Math.abs(omega1-omega2) == 1 ? "" : Math.abs(omega1-omega2);
   var coef4 = omega1+omega2 == 1 ? "" : omega1+omega2;
   var tmax = 0.5;
 
@@ -64,11 +64,33 @@ function updateGraph(){
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'},
+      min: -1.5,
+      max: 1.5
     }],
-    grid: grid
+    grid: grid,
+    legend: {
+      container: $('.legend')
+    }
       });
 
-  $('.note').text('The product of two sinusoids can always be written as the sum of two sinusoids. In this case, '+ampString(amp1)+'cos('+coef1+'t'+degString(deg1)+' * '+ampString(amp2)+'cos('+coef2+'t'+degString(deg2)+' = '+ampString(amp1*amp2*0.5)+'cos('+coef3+'t) + '+ampString(amp1*amp2*0.5)+'cos('+coef4+'t).');
+  var note_string = 'The product of two sinusoids can always be written as the sum of two sinusoids. In this case, ';
+  //Function 1
+  note_string += ampString(amp1)+'cos('+coef1+'t'+degString(deg1);
+  note_string += ' * ';
+  //Function 2
+  note_string += ampString(amp2)+'cos('+coef2+'t'+degString(deg2)
+  note_string += ' = '
+  if(coef3 != 0){
+    var phi;
+    if(omega1 >= omega2){
+      phi = fixDeg(deg1-deg2);
+    }else{
+      phi = fixDeg(deg2-deg1);
+    }
+    note_string += ampString(amp1*amp2*0.5)+'cos('+coef3+'t'+degString(phi)+' + ';
+  }
+  note_string += ampString(amp1*amp2*0.5)+'cos('+coef4+'t'+degString(fixDeg(deg1+deg2))+'.';
+  $('.note').text(note_string);
 }
 
 function nanDefault(value,def){
@@ -76,10 +98,10 @@ function nanDefault(value,def){
 }
 
 function fixDeg(deg){
-  while(deg < 0){
+  while(deg <= -180){
     deg += 360;
   }
-  while(deg >= 360){
+  while(deg > 180){
     deg -= 360;
   }
   return deg;
@@ -109,38 +131,51 @@ function genGraph(type,glob){
   var data = [];
   var obj = {};
   var label;
-  if(type == "Input 1"){
+  if(type == "Factor 1"){
     for(var i = 0; i < glob.t*1000; i += 1/glob.o1){
       data.push([i,glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180)]);
     }
     var coef = glob.o1 == 1 ? "" : glob.o1;
     obj.label = ampString(glob.a1)+"cos("+coef+"t"+degString(glob.d1);
+    obj.color = "red";
   }
 
-  if(type == "Input 2"){
+  if(type == "Factor 2"){
     for(var i = 0; i < glob.t*1000; i += 1/glob.o2){
       data.push([i,glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180)]);
     }
     var coef = glob.o2 == 1 ? "" : glob.o2;
     obj.label = ampString(glob.a2)+"cos("+coef+"t"+degString(glob.d2);
+    obj.color = "green";
   }
 
-  if(type == "Sum 1"){
-    var o = Math.abs(glob.o1-glob.o2);
+  if(type == "Term 1"){
+    var o;
+    var phi;
+    if(glob.o1 >= glob.o2){
+      o = glob.o1-glob.o2;
+      phi = fixDeg(glob.d1-glob.d2);
+    }else{
+      o = glob.o2-glob.o1;
+      phi = fixDeg(glob.d2-glob.d1);
+    }
     for(var i = 0; i < glob.t*1000; i += 1/o){
-      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000)]);
+      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000+phi*Math.PI/180)]);
     }
     var coef = o == 1 ? "" : o;
-    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t)";
+    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t"+degString(phi);
+    obj.color = "orange";
   }
 
-  if(type == "Sum 2"){
-    var o = Math.abs(glob.o1+glob.o2);
+  if(type == "Term 2"){
+    var o = glob.o1+glob.o2;
+    var phi = fixDeg(glob.d1+glob.d2);
     for(var i = 0; i < glob.t*1000; i += 1/o){
-      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000)]);
+      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000+phi*Math.PI/180)]);
     }
     var coef = o == 1 ? "" : o;
-    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t)";
+    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t"+degString(phi);
+    obj.color = "yellow";
   }
 
   if(type == "Product"){
@@ -150,6 +185,7 @@ function genGraph(type,glob){
     var coef1 = glob.o1 == 1 ? "" : glob.o1;
     var coef2 = glob.o2 == 1 ? "" : glob.o2;
     obj.label = ampString(glob.a1)+"cos("+coef1+"t"+degString(glob.d1)+' * '+ampString(glob.a2)+"cos("+coef2+"t"+degString(glob.d2);
+    obj.color = "blue";
   }
 
   obj.data = data;
