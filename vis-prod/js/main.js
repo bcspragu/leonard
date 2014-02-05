@@ -1,14 +1,14 @@
 $(function(){
-  var graph1 = $('.plot1');
-  graph1.height(graph1.width()/3);
-  var graph2 = $('.plot2');
-  graph2.height(graph2.width()/3);
-  var graph3 = $('.plot3');
-  graph3.height(graph3.width()/3);
+  var graph = $('.plot');
+  graph.height(graph.width()/2.5);
   updateGraph();
 
   $('.update-graph').click(function(){
     updateGraph();
+  });
+
+  $('.graph-select').on('click','.button',function(){
+    $(this).toggleClass('success');
   });
 });
 
@@ -22,40 +22,32 @@ function updateGraph(){
   var omega2 = nanDefault(parseFloat($('.omega2').val()),50);
   var deg2 = nanDefault(parseFloat($('.deg2').val()),0);
 
+  var coef1 = omega1 == 1 ? "" : omega1;
+  var coef2 = omega2 == 1 ? "" : omega2;
+  var coef3 = omega1-omega2 == 1 ? "" : omega1-omega2;
+  var coef4 = omega1+omega2 == 1 ? "" : omega1+omega2;
+  var tmax = 0.5;
+
+  var glob = {a1: amp1, a2: amp2, o1: omega1, o2: omega2, d1: deg1, d2: deg2, t: tmax};
   var base1 = [];
   var base2 = [];
   var res = [];
-  var tmax = 0.5;
 
-  var coefficient1 = omega1 == 1 ? "" : omega1;
-  var coefficient2 = omega2 == 1 ? "" : omega2;
-  var base_label1 = ampString(amp1)+"cos("+coefficient1+"t"+degString(deg1);
-  var base_label2 = ampString(amp2)+"cos("+coefficient2+"t"+degString(deg2);
+  var baseline = [[0,0],[tmax*1000,0]];
+  var graphs_to_display = [];
 
-  var factor1 = omega1/10;
-  var factor2 = omega2/10;
+  graphs_to_display.push({data: baseline, color: 'black', shadowSize: 0});
+
+  $('.success').each(function(){
+    graphs_to_display.push(genGraph($(this).text(),glob));
+  });
+
   var grid = {labelMargin: 10};
 
   grid.borderWidth = {bottom: 2, left: 3, top:2, right: 2},
   grid.borderColor = {left: 'black'};
-
-  for(var i = 0; i < tmax*1000; i += 1/factor1){
-    base1.push([i,amp1*Math.cos(omega1*i/1000+deg1*Math.PI/180)]);
-  }
-
-  for(var i = 0; i < tmax*1000; i += 1/factor2){
-    base2.push([i,amp2*Math.cos(omega2*i/1000+deg2*Math.PI/180)]);
-  }
-
-  for(var i = 0; i < tmax*1000; i += 1/factor2){
-    res.push([i,(amp1*Math.cos(omega1*i/1000+deg1*Math.PI/180))*(amp2*Math.cos(omega2*i/1000+deg2*Math.PI/180))]);
-  }
-
-  var baseline = [[0,0],[tmax*1000,0]];
-  var plot1 = $.plot('.plot1',[
-      {data: baseline, color: 'black', shadowSize: 0},
-      {data: base1, color: 'green', label: base_label1},
-      ], {
+  
+  var plot = $.plot('.plot',graphs_to_display, {
     series: {
       lines: {
         show: true
@@ -68,7 +60,7 @@ function updateGraph(){
       font: {size: 15, color: 'black'}
     }],
     yaxes: [{
-      axisLabel: 'v(t)',
+      axisLabel: 'f(t)',
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'},
@@ -76,53 +68,7 @@ function updateGraph(){
     grid: grid
       });
 
-  var plot2 = $.plot('.plot2',[
-      {data: baseline, color: 'black', shadowSize: 0},
-      {data: base2, color: 'blue', label: base_label2},
-      ], {
-    series: {
-      lines: {
-        show: true
-      },
-    },
-    xaxes: [{
-      axisLabel: 'time, t (ms)',
-      axisLabelPadding: 10,
-      axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'}
-    }],
-    yaxes: [{
-      axisLabel: 'i(t)',
-      axisLabelPadding: 10,
-      axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'},
-    }],
-    grid: grid
-      });
-
-  var plot3 = $.plot('.plot3',[
-      {data: baseline, color: 'black', shadowSize: 0},
-      {data: res, color: 'red', label: base_label1+' * '+base_label2},
-      ], {
-    series: {
-      lines: {
-        show: true
-      },
-    },
-    xaxes: [{
-      axisLabel: 'time, t (ms)',
-      axisLabelPadding: 10,
-      axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'}
-    }],
-    yaxes: [{
-      axisLabel: 'p(t)',
-      axisLabelPadding: 10,
-      axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'},
-    }],
-    grid: grid
-      });
+  $('.note').text('The product of two sinusoids can always be written as the sum of two sinusoids. In this case, '+ampString(amp1)+'cos('+coef1+'t'+degString(deg1)+' * '+ampString(amp2)+'cos('+coef2+'t'+degString(deg2)+' = '+ampString(amp1*amp2*0.5)+'cos('+coef3+'t) + '+ampString(amp1*amp2*0.5)+'cos('+coef4+'t).');
 }
 
 function nanDefault(value,def){
@@ -157,4 +103,55 @@ function degString(deg){
     deg_str = deg+'°)';
   }
   return deg_str;
+}
+
+function genGraph(type,glob){
+  var data = [];
+  var obj = {};
+  var label;
+  if(type == "Input 1"){
+    for(var i = 0; i < glob.t*1000; i += 1/glob.o1){
+      data.push([i,glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180)]);
+    }
+    var coef = glob.o1 == 1 ? "" : glob.o1;
+    obj.label = ampString(glob.a1)+"cos("+coef+"t"+degString(glob.d1);
+  }
+
+  if(type == "Input 2"){
+    for(var i = 0; i < glob.t*1000; i += 1/glob.o2){
+      data.push([i,glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180)]);
+    }
+    var coef = glob.o2 == 1 ? "" : glob.o2;
+    obj.label = ampString(glob.a2)+"cos("+coef+"t"+degString(glob.d2);
+  }
+
+  if(type == "Sum 1"){
+    var o = Math.abs(glob.o1-glob.o2);
+    for(var i = 0; i < glob.t*1000; i += 1/o){
+      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000)]);
+    }
+    var coef = o == 1 ? "" : o;
+    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t)";
+  }
+
+  if(type == "Sum 2"){
+    var o = Math.abs(glob.o1+glob.o2);
+    for(var i = 0; i < glob.t*1000; i += 1/o){
+      data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000)]);
+    }
+    var coef = o == 1 ? "" : o;
+    obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t)";
+  }
+
+  if(type == "Product"){
+    for(var i = 0; i < glob.t*1000; i += 2/(glob.o1+glob.o2)){
+      data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))*(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
+    }
+    var coef1 = glob.o1 == 1 ? "" : glob.o1;
+    var coef2 = glob.o2 == 1 ? "" : glob.o2;
+    obj.label = ampString(glob.a1)+"cos("+coef1+"t"+degString(glob.d1)+' * '+ampString(glob.a2)+"cos("+coef2+"t"+degString(glob.d2);
+  }
+
+  obj.data = data;
+  return obj;
 }
