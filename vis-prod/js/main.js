@@ -54,7 +54,7 @@ function updateGraph(){
   var baseline = [[0,0],[tmax*1000,0]];
   var plot1 = $.plot('.plot1',[
       {data: baseline, color: 'black', shadowSize: 0},
-      {data: base1, label: base_label1},
+      {data: base1, color: 'green', label: base_label1},
       ], {
     series: {
       lines: {
@@ -78,7 +78,7 @@ function updateGraph(){
 
   var plot2 = $.plot('.plot2',[
       {data: baseline, color: 'black', shadowSize: 0},
-      {data: base2, label: base_label2},
+      {data: base2, color: 'blue', label: base_label2},
       ], {
     series: {
       lines: {
@@ -102,7 +102,7 @@ function updateGraph(){
 
   var plot3 = $.plot('.plot3',[
       {data: baseline, color: 'black', shadowSize: 0},
-      {data: res, label: base_label1+' * '+base_label2},
+      {data: res, color: 'red', label: base_label1+' * '+base_label2},
       ], {
     series: {
       lines: {
