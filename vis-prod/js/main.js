@@ -137,7 +137,7 @@ function genGraph(type,glob){
     }
     var coef = glob.o1 == 1 ? "" : glob.o1;
     obj.label = ampString(glob.a1)+"cos("+coef+"t"+degString(glob.d1);
-    obj.color = "red";
+    obj.color = "#FF4136";
   }
 
   if(type == "Factor 2"){
@@ -146,7 +146,7 @@ function genGraph(type,glob){
     }
     var coef = glob.o2 == 1 ? "" : glob.o2;
     obj.label = ampString(glob.a2)+"cos("+coef+"t"+degString(glob.d2);
-    obj.color = "green";
+    obj.color = "#FFDC00";
   }
 
   if(type == "Term 1"){
@@ -164,7 +164,7 @@ function genGraph(type,glob){
     }
     var coef = o == 1 ? "" : o;
     obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t"+degString(phi);
-    obj.color = "orange";
+    obj.color = "#01FF70";
   }
 
   if(type == "Term 2"){
@@ -175,7 +175,7 @@ function genGraph(type,glob){
     }
     var coef = o == 1 ? "" : o;
     obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+"t"+degString(phi);
-    obj.color = "yellow";
+    obj.color = "#39CCCC";
   }
 
   if(type == "Product"){
@@ -185,7 +185,7 @@ function genGraph(type,glob){
     var coef1 = glob.o1 == 1 ? "" : glob.o1;
     var coef2 = glob.o2 == 1 ? "" : glob.o2;
     obj.label = ampString(glob.a1)+"cos("+coef1+"t"+degString(glob.d1)+' * '+ampString(glob.a2)+"cos("+coef2+"t"+degString(glob.d2);
-    obj.color = "blue";
+    obj.color = "darkred";
   }
 
   obj.data = data;
