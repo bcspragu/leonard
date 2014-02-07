@@ -94,9 +94,9 @@ function updateGraph(){
   else{
     var phi;
     if(omega1 >= omega2){
-      phi = fixDegPos(deg1-deg2);
+      phi = Math.abs(deg1-deg2);
     }else{
-      phi = fixDegPos(deg2-deg1);
+      phi = Math.abs(deg2-deg1);
     }
     note_string += ampString(amp1*amp2*0.5)+'cos('+phi+'°) + ';
   }
@@ -113,16 +113,6 @@ function fixDeg(deg){
     deg += 360;
   }
   while(deg > 180){
-    deg -= 360;
-  }
-  return deg;
-}
-
-function fixDegPos(deg){
-  while(deg < 0){
-    deg += 360;
-  }
-  while(deg >= 360){
     deg -= 360;
   }
   return deg;
@@ -188,13 +178,13 @@ function genGraph(type,glob){
     var degStr;
     if(o == 0){
       coef = ""; 
-      degStr = fixDegPos(phi)+'°)';
+      degStr = Math.abs(phi)+'°)';
     }else{
       coef += "t";
       degStr = degString(phi);
     }
     obj.label = ampString(glob.a1*glob.a2/2)+"cos("+coef+degStr;
-    obj.color = "#FF4136";
+    obj.color = "#FF851B";
   }
 
   if(type == "Term 2"){
