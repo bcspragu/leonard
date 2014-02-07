@@ -22,10 +22,8 @@ function updateGraph(){
   var omega2 = 50;
   var deg2 = nanDefault(parseFloat($('.deg2').val()),0);
 
-  var coef1 = omega1 == 1 ? "" : omega1;
-  var coef2 = omega2 == 1 ? "" : omega2;
-  var coef3 = Math.abs(omega1-omega2) == 1 ? "" : Math.abs(omega1-omega2);
-  var coef4 = omega1+omega2 == 1 ? "" : omega1+omega2;
+  var gmax = Math.abs(nanDefault(parseFloat($('.graph-max').val()),1.5));
+
   var tmax = 0.5;
 
   var glob = {a1: amp1, a2: amp2, o1: omega1, o2: omega2, d1: deg1, d2: deg2, t: tmax};
@@ -63,7 +61,9 @@ function updateGraph(){
       axisLabel: 'f(t)',
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'}
+      font: {size: 15, color: 'black'},
+      min: -gmax,
+      max: gmax 
     }],
     grid: grid,
     legend: {
@@ -74,20 +74,15 @@ function updateGraph(){
   var note_string = 'The sum of two sinusoids with the same frequency is a single sinusoid with the same frequency. In this case, ';
   //Function 1
   note_string += ampString(amp1)+'cos(50t'+degString(deg1);
-  note_string += ' * ';
+  note_string += ' + ';
   //Function 2
-  note_string += ampString(amp2)+'cos(50t'+degString(deg2);
+  note_string += ampString(amp2)+'cos(50t'+degString(deg2)
   note_string += ' = '
-  if(coef3 != 0){
-    var phi;
-    if(omega1 >= omega2){
-      phi = fixDeg(deg1-deg2);
-    }else{
-      phi = fixDeg(deg2-deg1);
-    }
-    note_string += ampString(amp1*amp2*0.5)+'cos('+coef3+'t'+degString(phi)+' + ';
-  }
-  note_string += ampString(amp1*amp2*0.5)+'cos('+coef4+'t'+degString(fixDeg(deg1+deg2))+'.';
+
+  var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
+  coef = coef == 1 ? "" : coef;
+  var angle = generateAngle(glob.a1,glob.a2,glob.d1,glob.d2);
+  note_string += ampString(coef.toFixed(2))+"cos(50t"+degString(angle.toFixed(2));")."
   $('.note').text(note_string);
 }
 
@@ -135,7 +130,7 @@ function genGraph(type,glob){
     }
     var coef = glob.o1 == 1 ? "" : glob.o1;
     obj.label = ampString(glob.a1)+"cos("+coef+"t"+degString(glob.d1);
-    obj.color = "red";
+    obj.color = "#EDC240";
   }
 
   if(type == "Factor 2"){
@@ -144,29 +139,27 @@ function genGraph(type,glob){
     }
     var coef = glob.o2 == 1 ? "" : glob.o2;
     obj.label = ampString(glob.a2)+"cos("+coef+"t"+degString(glob.d2);
-    obj.color = "green";
+    obj.color = "#AFD8F8";
   }
 
-  if(type == "Product"){
+  if(type == "Sum"){
     for(var i = 0; i < glob.t*1000; i += 2/(glob.o1+glob.o2)){
-      data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))+(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
+      data.push([i,(glob.a1*Math.cos(50*i/1000+glob.d1*Math.PI/180))+(glob.a2*Math.cos(50*i/1000+glob.d2*Math.PI/180))]);
     }
-
     var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
     coef = coef == 1 ? "" : coef;
     var angle = generateAngle(glob.a1,glob.a2,glob.d1,glob.d2);
-    obj.label = ampString(coef)+"cos(50t"+degString(angle);
-    obj.color = "blue";
+    obj.label = ampString(coef.toFixed(2))+"cos(50t"+degString(angle.toFixed(2));")"
+    obj.color = "darkred";
   }
-
   obj.data = data;
   return obj;
 }
 
 function generateCoef(a1,a2,p1,p2){
-  return Math.sqrt(a1*a1+a2*a2+2*a1*a2*Math.cos(p1-p2));
+    return Math.sqrt(Math.pow((a1*Math.cos(p1*Math.PI/180)+a2*Math.cos(p2*Math.PI/180)),2)+Math.pow((a1*Math.sin(p1*Math.PI/180)+a2*Math.sin(p2*Math.PI/180)),2));
 }
 
 function generateAngle(a1,a2,p1,p2){
-  return Math.atan((a1*Math.sin(p1*Math.PI/180)+a2*Math.sin(p2*Math.PI/180))/(a1*Math.cos(p1*Math.PI/180)+a2*Math.cos(p2*Math.PI/180)));
+  return Math.atan((a1*Math.sin(p1*Math.PI/180)+a2*Math.sin(p2*Math.PI/180))/(a1*Math.cos(p1*Math.PI/180)+a2*Math.cos(p2*Math.PI/180)))*180/Math.PI;
 }
