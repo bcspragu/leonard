@@ -19,7 +19,7 @@ function updateGraph(){
   var base = [];
   var shifted = [];
   var vertical = [];
-  var non_zero_axis = tmin < 0 && tmax > 0;
+  var non_zero_axis = tmin < 0 && tmax >= 0;
   if(non_zero_axis){
     vertical.push([0,-1]);
     vertical.push([0,1]);

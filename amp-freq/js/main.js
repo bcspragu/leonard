@@ -20,7 +20,7 @@ function updateGraph(){
   var vertical = [];
   var tmin = -0.2;
   var tmax = 0.3;
-  var non_zero_axis = tmin < 0 && tmax > 0;
+  var non_zero_axis = tmin < 0 && tmax >= 0;
 
   if(non_zero_axis){
     vertical.push([0,graph_min]);
