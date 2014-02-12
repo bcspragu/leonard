@@ -93,10 +93,10 @@ function updateGraph(){
   //Function 2
   note_string += ampString(amp2)+'cos('+coef2+'t'+degString(deg2)
   note_string += ' = '
-  var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
-  coef = coef == 1 ? "" : coef;
+  var amp = generateAmp(glob.a1,glob.a2,glob.d1,glob.d2);
+  amp = amp == 1 ? "" : amp;
   var angle = generateAngle(glob.d1,glob.d2);
-  note_string += ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+").";
+  note_string += ampString(amp.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+").";
   $('.note').text(note_string);
 }
 
@@ -163,11 +163,11 @@ function genGraph(type,glob){
     for(var i = glob.tmin*1000; i < glob.tmax*1000; i += increment){
       data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))+(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
     }
-    var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
-    coef = coef == 1 ? "" : coef;
+    var amp = generateAmp(glob.a1,glob.a2,glob.d1,glob.d2);
+    amp = amp == 1 ? "" : amp;
     var angle = generateAngle(glob.d1,glob.d2);
     var coef1 = glob.o1 == 1 ? "" : glob.o1;
-    obj.label = ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))
+    obj.label = ampString(amp.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))
     obj.color = "darkred";
   }
 
@@ -175,7 +175,7 @@ function genGraph(type,glob){
   return obj;
 }
 
-function generateCoef(a1,a2,p1,p2){
+function generateAmp(a1,a2,p1,p2){
   return Math.sqrt(Math.pow((a1*Math.cos(p1*Math.PI/180)+a2*Math.cos(p2*Math.PI/180)),2)+Math.pow((a1*Math.sin(p1*Math.PI/180)+a2*Math.sin(p2*Math.PI/180)),2));
 }
 
