@@ -96,7 +96,7 @@ function updateGraph(){
   var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
   coef = coef == 1 ? "" : coef;
   var angle = generateAngle(glob.a2,glob.d1,glob.d2);
-  note_string += ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3));")."
+  note_string += ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+").";
   $('.note').text(note_string);
 }
 
@@ -158,14 +158,16 @@ function genGraph(type,glob){
     obj.color = "#AFD8F8";
   }
 
-  if(type == "Product"){
+  if(type == "Sum"){
     var increment = Math.abs(2/(glob.o1+glob.o2));
     for(var i = glob.tmin*1000; i < glob.tmax*1000; i += increment){
-      data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))*(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
+      data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))+(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
     }
+    var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
+    coef = coef == 1 ? "" : coef;
+    var angle = generateAngle(glob.a2,glob.d1,glob.d2);
     var coef1 = glob.o1 == 1 ? "" : glob.o1;
-    var coef2 = glob.o2 == 1 ? "" : glob.o2;
-    obj.label = ampString(glob.a1)+"cos("+coef1+"t"+degString(glob.d1)+' * '+ampString(glob.a2)+"cos("+coef2+"t"+degString(glob.d2);
+    obj.label = ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))
     obj.color = "darkred";
   }
 
