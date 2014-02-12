@@ -44,7 +44,7 @@ function updateGraph(){
     base_label += ')';
   }
 
-  var factor = omega/10;
+  var factor = Math.abs(omega/10);
   var grid = {labelMargin: 10};
 
   if(non_zero_axis){

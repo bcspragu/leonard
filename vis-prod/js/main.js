@@ -143,7 +143,8 @@ function genGraph(type,glob){
   var obj = {};
   var label;
   if(type == "Factor 1"){
-    for(var i = 0; i < glob.t*1000; i += 1/glob.o1){
+    var increment = Math.abs(1/glob.o1);
+    for(var i = 0; i < glob.t*1000; i += increment){
       data.push([i,glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180)]);
     }
     var coef = glob.o1 == 1 ? "" : glob.o1;
@@ -152,7 +153,8 @@ function genGraph(type,glob){
   }
 
   if(type == "Factor 2"){
-    for(var i = 0; i < glob.t*1000; i += 1/glob.o2){
+    var incrememnt = Math.abs(1/glob.o2);
+    for(var i = 0; i < glob.t*1000; i += increment){
       data.push([i,glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180)]);
     }
     var coef = glob.o2 == 1 ? "" : glob.o2;
@@ -170,7 +172,7 @@ function genGraph(type,glob){
       o = glob.o2-glob.o1;
       phi = fixDeg(glob.d2-glob.d1);
     }
-    var factor = o || 1;
+    var factor = Math.abs(o || 1);
     for(var i = 0; i < glob.t*1000; i += 1/factor){
       data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000+phi*Math.PI/180)]);
     }
@@ -190,7 +192,8 @@ function genGraph(type,glob){
   if(type == "Term 2"){
     var o = glob.o1+glob.o2;
     var phi = fixDeg(glob.d1+glob.d2);
-    for(var i = 0; i < glob.t*1000; i += 1/o){
+    var increment = Math.abs(1/o);
+    for(var i = 0; i < glob.t*1000; i += increment){
       data.push([i,(glob.a1*glob.a2/2)*Math.cos(o*i/1000+phi*Math.PI/180)]);
     }
     var coef = o == 1 ? "" : o;
@@ -199,7 +202,8 @@ function genGraph(type,glob){
   }
 
   if(type == "Product"){
-    for(var i = 0; i < glob.t*1000; i += 2/(glob.o1+glob.o2)){
+    var increment = Math.abs(2/(glob.o1+glob.o2));
+    for(var i = 0; i < glob.t*1000; i += increment){
       data.push([i,(glob.a1*Math.cos(glob.o1*i/1000+glob.d1*Math.PI/180))*(glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180))]);
     }
     var coef1 = glob.o1 == 1 ? "" : glob.o1;

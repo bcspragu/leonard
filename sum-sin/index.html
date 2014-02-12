@@ -21,37 +21,49 @@
       <!--[if lt IE 7]>
           <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-      <h2 class="text-center">Sum of Two Sinusoids is a Sinusoid</h2>
+      <h2 class="text-center">Sum of Two Sinusoids</h2>
       <div class="row">
-        <div class="small-6 columns">
+        <div class="small-3 columns">
           <label>Amplitude 1</label>
           <input type="text" class="amp1" placeholder="Amplitude" value="1" />
         </div>
-        <div class="small-6 columns">
-          <label>Phase Shift, ϕ1 (deg)</label>
-          <input type="text" class="deg1" placeholder="Deg" value="0" />
-        </div>
-      </div>
-      <div class="row">
-        <div class="small-6 columns">
+        <div class="small-3 columns">
           <label>Amplitude 2</label>
           <input type="text" class="amp2" placeholder="Amplitude" value="1" />
         </div>
-        <div class="small-6 columns">
+        <div class="small-3 columns">
+          <label>Phase Shift, ϕ1 (deg)</label>
+          <input type="text" class="deg1" placeholder="Deg" value="0" />
+        </div>
+        <div class="small-3 columns">
           <label>Phase Shift, ϕ2 (deg)</label>
           <input type="text" class="deg2" placeholder="Deg" value="90" />
         </div>
       </div>
       <div class="row">
-        <div class="small-2 columns">
-          <label>Graph Max/Min</label>
-          <input type="text" class="graph-max" placeholder="Max/Min" value="1.5" />
+        <div class="small-3 columns">
+          <label>Angular Frequency, ω (rad/s)</label>
+          <input type="text" class="omega" placeholder="Omega" value="50" />
         </div>
-        <div class="small-8 columns text-center">
-          <ul class="button-group graph-select" style="display:inline-block;">
-            <li><a href="#" class="button success">Factor 1</a></li>
-            <li><a href="#" class="button success">Factor 2</a></li>
-            <li><a href="#" class="button">Sum</a></li>
+        <div class="small-3 columns">
+          <label>Graph Max/Min</label>
+          <input type="text" class="graph-max" placeholder="Max/Min" value="1" />
+        </div>
+        <div class="small-3 columns">
+          <label>Tmin (s)</label>
+          <input type="text" class="tmin" placeholder="Tmin" value="0" />
+        </div>
+        <div class="small-3 columns">
+          <label>Tmax (s)</label>
+          <input type="text" class="tmax" placeholder="Tmax" value="0.5" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-10 columns">
+          <ul class="button-group left graph-select">
+            <li><a href="#" class="button success">Term 1</a></li>
+            <li><a href="#" class="button success">Term 2</a></li>
+            <li><a href="#" class="button">Product</a></li>
           </ul>
         </div>
         <div class="small-2 columns">

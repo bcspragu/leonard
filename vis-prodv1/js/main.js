@@ -32,8 +32,8 @@ function updateGraph(){
   var base_label1 = ampString(amp1)+"cos("+coefficient1+"t"+degString(deg1);
   var base_label2 = ampString(amp2)+"cos("+coefficient2+"t"+degString(deg2);
 
-  var factor1 = omega1/10;
-  var factor2 = omega2/10;
+  var factor1 = Math.abs(omega1/10);
+  var factor2 = Math.abs(omega2/10);
   var grid = {labelMargin: 10};
 
   grid.borderWidth = {bottom: 2, left: 3, top:2, right: 2},

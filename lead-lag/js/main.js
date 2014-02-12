@@ -34,7 +34,7 @@ function updateGraph(){
   }else{
     shifted_label = "cos("+coefficient+"t)";
   }
-  var factor = omega/10;
+  var factor = Math.abs(omega/10);
   var grid = {labelMargin: 10};
   if(non_zero_axis){
     grid.borderWidth = {bottom: 2, left: 2, top:2, right: 2},
