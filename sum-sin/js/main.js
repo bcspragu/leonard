@@ -95,7 +95,7 @@ function updateGraph(){
   note_string += ' = '
   var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
   coef = coef == 1 ? "" : coef;
-  var angle = generateAngle(glob.a2,glob.d1,glob.d2);
+  var angle = generateAngle(glob.d1,glob.d2);
   note_string += ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+").";
   $('.note').text(note_string);
 }
@@ -165,7 +165,7 @@ function genGraph(type,glob){
     }
     var coef = generateCoef(glob.a1,glob.a2,glob.d1,glob.d2);
     coef = coef == 1 ? "" : coef;
-    var angle = generateAngle(glob.a2,glob.d1,glob.d2);
+    var angle = generateAngle(glob.d1,glob.d2);
     var coef1 = glob.o1 == 1 ? "" : glob.o1;
     obj.label = ampString(coef.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))
     obj.color = "darkred";
