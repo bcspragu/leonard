@@ -34,13 +34,13 @@ function updateGraph(){
       },
     },
     xaxes: [{
-      axisLabel: 'omega, (rad/s)',
+      axisLabel: 'ω (rad/s)',
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'}
     }],
     yaxes: [{
-      axisLabel: 'I(t)',
+      axisLabel: 'Amplitude of current (A)',
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'}
