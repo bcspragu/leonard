@@ -23,7 +23,7 @@
       <![endif]-->
       <h2>Understanding Resonance</h2>
       <div class="row">
-        <div class="small-3 columns">
+        <div class="small-2 columns">
           <label>V0 (V)</label>
           <input type="text" class="volt" placeholder="Voltage" value="1" />
         </div>
@@ -39,8 +39,12 @@
           <label>C (uC)</label>
           <input type="text" class="cap" placeholder="Capacitance" value="50" />
         </div>
-        <div class="small-3 columns">
-          <a href="#" class="button right update-graph">Update</a>
+        <div class="small-2 columns">
+          <label>Phase Shift, ϕ (deg)</label>
+          <input type="text" placeholder="Deg" value="0" />
+        </div>
+        <div class="small-2 columns">
+          <a href="#" data-reveal-id="circuitModal" class="button right">Circuit</a>
         </div>
       </div>
       <div class="row">
@@ -51,8 +55,8 @@
           <label>Graph Max</label>
           <input type="text" class="gmax" placeholder="Graph Max" value="0.05" />
         </div>
-        <div class="small-3 columns">
-          <a href="#" data-reveal-id="circuitModal" class="button right">View Circuit</a>
+        <div class="small-2 columns">
+          <a href="#" class="button right update-graph">Update</a>
         </div>
       </div>
       <div class="row">
