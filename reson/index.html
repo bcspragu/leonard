@@ -44,8 +44,25 @@
         </div>
       </div>
       <div class="row">
+        <div class="small-3 columns">
+          <a href="#" class="button scale success">Auto Scale Y-Axis</a>
+        </div>
+        <div class="small-2 columns invisible">
+          <label>Graph Max</label>
+          <input type="text" class="gmax" placeholder="Graph Max" value="0.05" />
+        </div>
+        <div class="small-3 columns">
+          <a href="#" data-reveal-id="circuitModal" class="button right">View Circuit</a>
+        </div>
+      </div>
+      <div class="row">
         <div class="small-12 small-centered columns plot"></div>
       </div>
+      <div id="circuitModal" class="reveal-modal text-center small" data-reveal>
+        <h2>Series RLC</h2>
+        <img src="img/Circuits.gif" width="400">
+        <a class="close-reveal-modal">&#215;</a>
+      </div> 
       <p class="note"></p>
 
       <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
