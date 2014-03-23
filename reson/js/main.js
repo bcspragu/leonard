@@ -1,3 +1,4 @@
+var plot, ymax,xmax;
 $(function(){
   var graph = $('.plot');
   graph.height(graph.width()/2);
@@ -6,11 +7,17 @@ $(function(){
   $('.scaley').click(function(){
     $(this).toggleClass('success');
     $('.gymax').parents('.columns').toggleClass('invisible');
+    if($('.gxmax').is(':visible')){
+      $('.gymax').val(ymax);
+    }
   });
 
   $('.scalex').click(function(){
     $(this).toggleClass('success');
     $('.gxmax').parents('.columns').toggleClass('invisible');
+    if($('.gxmax').is(':visible')){
+      $('.gxmax').val(xmax.toFixed(2));
+    }
   });
 
   $('.update-graph').click(function(){
@@ -36,8 +43,12 @@ function updateGraph(){
 
   fmax = scalex ? fmax : res_freq*5;
 
-  for(var i = 0; i < fmax*10; i += 1){
-    base.push([i/10,(v0)/(Math.sqrt(Math.pow(res,2)+Math.pow((i/10)*ind-1/((i/10)*cap),2)))]);
+  xmax = fmax;
+
+  var step_size = fmax/50000.0;
+
+  for(var i = 0; i < fmax; i += step_size){
+    base.push([i,(v0)/(Math.sqrt(Math.pow(res,2)+Math.pow((i)*ind-1/((i)*cap),2)))]);
   }
 
   var options = {
@@ -67,6 +78,7 @@ function updateGraph(){
       {data: max_res, color: 'red', shadowSize: 0, dashes: {show: true}},
       {data: base},
       ], options);
+  ymax = plot.getAxes().yaxis.max;
   $('.note').text('Maximum amplitude of current is '+max_amp.toFixed(3)+' A at ω = '+res_freq.toFixed(2)+' rad/s.');
 }
 
