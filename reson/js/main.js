@@ -53,7 +53,7 @@ function updateGraph(){
 
   var options = {
     xaxes: [{
-      axisLabel: 'ω (rad/s)',
+      axisLabel: 'f (Hz)',
       axisLabelPadding: 10,
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'}
