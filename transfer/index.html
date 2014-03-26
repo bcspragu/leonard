@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+      <!--[if lt IE 7]>
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <h2>Transfer Functions</h2>
+      <div class="row">
+        <div class="small-2 columns">
+          <label>R1 (ohms)</label>
+          <input type="text" class="r1" placeholder="R1" value="50" />
+        </div>
+        <div class="small-2 columns">
+          <label>L1 (mH)</label>
+          <input type="text" class="l1" placeholder="L1" value="50" />
+        </div>
+        <div class="small-2 columns">
+          <label>C1 (uF)</label>
+          <input type="text" class="c1" placeholder="C1" value="50" />
+        </div>
+        <div class="small-2 columns">
+          <label>R2 (ohms)</label>
+          <input type="text" class="r2" placeholder="R2" value="50" />
+        </div>
+        <div class="small-2 columns">
+          <label>L2 (mH)</label>
+          <input type="text" class="l2" placeholder="L2" value="50" />
+        </div>
+        <div class="small-2 columns">
+          <label>C2 (uF)</label>
+          <input type="text" class="c2" placeholder="C2" value="100000" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-6 columns text-center">
+          <a href="#" class="button log-log">Log-Log</a>
+        </div>
+        <div class="small-6 columns text-center">
+          <a href="#" class="button update-graph">Update</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-12 small-centered columns plot"></div>
+      </div>
+      <p class="note"></p>
+
+      <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+      <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+      <script src="js/vendor/jquery.flot.js"></script>
+      <script src="js/vendor/jquery.flot.axislabels.js"></script>
+      <script src="js/vendor/jquery.flot.dashes.js"></script>
+      <script src="js/plugins.js"></script>
+      <script src="js/foundation.min.js"></script>
+      <script>
+        $(document).foundation();
+      </script>
+      <script src="js/main.js"></script>
+    </body>
+</html>
