@@ -25,7 +25,7 @@ function updateGraph(){
   var base = [];
 
   for(var i = 0; i < 10000; i += 1){
-    base.push([i,Math.sqrt(Math.pow(c1-c1*c2*l2*Math.pow(i,2),2)+Math.pow(c1*c2*r2*i,2))/Math.sqrt(Math.pow(c1+c2-c1*c2*l1*Math.pow(i,2)-c1*c2*l2*Math.pow(i,2),2)+Math.pow(c1*c2*r1*i+c1*c2*r2*i,2))]);
+    base.push([i,Math.sqrt((Math.pow(r2,2)+Math.pow(l2*i-1/(c2*i),2))/(Math.pow(r1+r2,2)+Math.pow((l1+l2)*i-(1/c1+1/c2)/i,2)))]);
   }
 
   var options = {
