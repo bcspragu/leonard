@@ -79,17 +79,17 @@ function generatePulse(pattern,period,tmin,tmax){
   return pulses;
 }
 
-function generateFourier(pattern,period,tmin,tmax,n){
-  var a_0 = 0;
+function generateFourier(pulses,period,tmin,tmax,n){
+  var a_0 = averagePulse(pulses);
   var a_ns = [];
   var b_ns = [];
   var w_0 = 2*Math.PI/period;
   for(var i = 0; i < n; i++){
     var a_n = 0;
     var b_n = 0;
-    for(var j = 0; j < pattern.length; j++){
-      a_n += pattern[j]*i*w_0*(Math.sin(i*w_0*(j+1)*period/pattern.length)-Math.sin(i*w_0*j*period/pattern.length));
-      b_n += pattern[j]*i*w_0*(Math.cos(i*w_0*j*period/pattern.length)-Math.cos(i*w_0*(j+1)*period/pattern.length));
+    for(var j = 0; j < pulses.length; j++){
+      a_n += pulses[j]*i*w_0*(Math.sin(i*w_0*(j+1)*period/pulses.length)-Math.sin(i*w_0*j*period/pulses.length));
+      b_n += pulses[j]*i*w_0*(Math.cos(i*w_0*j*period/pulses.length)-Math.cos(i*w_0*(j+1)*period/pulses.length));
     }
     a_ns.push(a_n*2/period);
     b_ns.push(b_n*2/period);
@@ -105,6 +105,14 @@ function generateFourier(pattern,period,tmin,tmax,n){
     fxn.push([i,val]);
   }
   return fxn;
+}
+
+function averagePulse(pulses){
+  var sum = 0;
+  for(var i = 0; i < pulses.length; i++){
+    sum += pulses[i];
+  }
+  return sum/pulses.length;
 }
 
 function highest_and_lowest(pulse){
