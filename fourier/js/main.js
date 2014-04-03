@@ -84,15 +84,15 @@ function generateFourier(pulses,period,tmin,tmax,n){
   var a_ns = [];
   var b_ns = [];
   var w_0 = 2*Math.PI/period;
-  for(var i = 0; i < n; i++){
+  for(var i = 1; i <= n; i++){
     var a_n = 0;
     var b_n = 0;
     for(var j = 0; j < pulses.length; j++){
-      a_n += pulses[j]*i*w_0*(Math.sin(i*w_0*(j+1)*period/pulses.length)-Math.sin(i*w_0*j*period/pulses.length));
-      b_n += pulses[j]*i*w_0*(Math.cos(i*w_0*j*period/pulses.length)-Math.cos(i*w_0*(j+1)*period/pulses.length));
+      a_n += pulses[j]*(Math.sin(i*w_0*(j+1)*period/pulses.length)-Math.sin(i*w_0*j*period/pulses.length));
+      b_n += pulses[j]*(Math.cos(i*w_0*j*period/pulses.length)-Math.cos(i*w_0*(j+1)*period/pulses.length));
     }
-    a_ns.push(a_n*2/period);
-    b_ns.push(b_n*2/period);
+    a_ns.push(a_n*2/(period*w_0*i));
+    b_ns.push(b_n*2/(period*w_0*i));
   }
   var fxn = [];
   var index = 0;
@@ -100,7 +100,7 @@ function generateFourier(pulses,period,tmin,tmax,n){
   for(var i = tmin; i < tmax; i += 1/100){
     val = a_0;
     for(var j = 0; j < n; j++){
-      val += a_ns[j]*Math.cos(j*w_0*i)+b_ns[j]*Math.sin(j*w_0*i);
+      val += a_ns[j]*Math.cos((j+1)*w_0*i)+b_ns[j]*Math.sin((j+1)*w_0*i);
     }
     fxn.push([i,val]);
   }
