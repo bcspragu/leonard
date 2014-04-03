@@ -18,13 +18,14 @@ function updateGraph(){
   var n_val = nanDefault(parseFloat($('.nval').val()),1);
 
   var range = highest_and_lowest(pulse);
-  var pulses = generatePulse(pulse,period,tmin,tmax);
+  var pulsesF = generatePulseF(pulse,period,tmin,tmax);
+  var pulsesB = generatePulseB(pulse,period,tmin,tmax);
   var fourier = generateFourier(pulse,period,tmin,tmax,n_val);
 
   var baseline = [[tmin,0],[tmax,0]];
   var yaxis = [[0,range.lowest-1],[0,range.highest+1]];
   
-  var plot = $.plot('.plot',[{data: pulses},{data: fourier},
+  var plot = $.plot('.plot',[{data: pulsesF, color: 'lightblue'},{data: pulsesB, color: 'lightblue'},{data: fourier},
       {data: baseline, color: 'black', shadowSize: 0},
       {data: yaxis, color: 'black', shadowSize: 0}], {
     series: {
@@ -39,7 +40,8 @@ function updateGraph(){
       axisLabelUseCanvas: true,
       font: {size: 15, color: 'black'},
       min: tmin,
-      max: tmax
+      max: tmax,
+      transform: function(x){return x/period;}
     },
     yaxis: {
       show: true,
@@ -67,13 +69,25 @@ function pulseToNum(pulse){
   return pattern;
 }
 
-function generatePulse(pattern,period,tmin,tmax){
+function generatePulseF(pattern,period,tmin,tmax){
   var pulses = [];
 
   var index = 0;
-  for(var i = tmin; i < tmax; i += period/pattern.length){
+  for(var i = 0; i < tmax; i += period/pattern.length){
     pulses.push([i,pattern[index % pattern.length]]);
     pulses.push([i+period/pattern.length,pattern[index % pattern.length]]);
+    index++;
+  }
+  return pulses;
+}
+
+function generatePulseB(pattern,period,tmin,tmax){
+  var pulses = [];
+
+  var index = 0;
+  for(var i = 0; i > tmin; i -= period/pattern.length){
+    pulses.push([i,pattern[pattern.length - (index % pattern.length) - 1]]);
+    pulses.push([i-period/pattern.length,pattern[pattern.length - (index % pattern.length) - 1]]);
     index++;
   }
   return pulses;
@@ -97,7 +111,7 @@ function generateFourier(pulses,period,tmin,tmax,n){
   var fxn = [];
   var index = 0;
   var val;
-  for(var i = tmin; i < tmax; i += 1/100){
+  for(var i = tmin; i < tmax; i += 1/250){
     val = a_0;
     for(var j = 0; j < n; j++){
       val += a_ns[j]*Math.cos((j+1)*w_0*i)+b_ns[j]*Math.sin((j+1)*w_0*i);
