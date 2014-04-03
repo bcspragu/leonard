@@ -10,18 +10,21 @@ $(function(){
 
 function updateGraph(){
   var pulse = $('.pulse').val() || "0 1 0 0 0";
+  pulse = pulseToNum(pulse);
   var period = nanDefault(parseFloat($('.period').val()),1);
 
   var tmin = nanDefault(parseFloat($('.tmin').val()),-1);
   var tmax = nanDefault(parseFloat($('.tmax').val()),2);
+  var n_val = nanDefault(parseFloat($('.nval').val()),1);
 
   var range = highest_and_lowest(pulse);
-  var pulse = generatePulse(pulse,period,tmin,tmax);
+  var pulses = generatePulse(pulse,period,tmin,tmax);
+  var fourier = generateFourier(pulse,period,tmin,tmax,n_val);
 
   var baseline = [[tmin,0],[tmax,0]];
   var yaxis = [[0,range.lowest-1],[0,range.highest+1]];
   
-  var plot = $.plot('.plot',[{data: pulse},
+  var plot = $.plot('.plot',[{data: pulses},{data: fourier},
       {data: baseline, color: 'black', shadowSize: 0},
       {data: yaxis, color: 'black', shadowSize: 0}], {
     series: {
@@ -56,12 +59,16 @@ function nanDefault(value,def){
   return isNaN(value) ? def : value
 }
 
-function generatePulse(pulse,period,tmin,tmax){
-  var pulses = [];
+function pulseToNum(pulse){
   var pattern = pulse.split(' ');
   for(var i = 0; i < pattern.length; i++){
-    pattern[i] = parseInt(pattern[i]);
+    pattern[i] = parseFloat(pattern[i]);
   }
+  return pattern;
+}
+
+function generatePulse(pattern,period,tmin,tmax){
+  var pulses = [];
 
   var index = 0;
   for(var i = tmin; i < tmax; i += period/pattern.length){
@@ -72,11 +79,38 @@ function generatePulse(pulse,period,tmin,tmax){
   return pulses;
 }
 
+function generateFourier(pattern,period,tmin,tmax,n){
+  var a_0 = 0;
+  var a_ns = [];
+  var b_ns = [];
+  var w_0 = 2*Math.PI/period;
+  for(var i = 0; i < n; i++){
+    var a_n = 0;
+    var b_n = 0;
+    for(var j = 0; j < pattern.length; j++){
+      a_n += pattern[j]*i*w_0*(Math.sin(i*w_0*(j+1)*period/pattern.length)-Math.sin(i*w_0*j*period/pattern.length));
+      b_n += pattern[j]*i*w_0*(Math.cos(i*w_0*j*period/pattern.length)-Math.cos(i*w_0*(j+1)*period/pattern.length));
+    }
+    a_ns.push(a_n*2/period);
+    b_ns.push(b_n*2/period);
+  }
+  var fxn = [];
+  var index = 0;
+  var val;
+  for(var i = tmin; i < tmax; i += 1/100){
+    val = a_0;
+    for(var j = 0; j < n; j++){
+      val += a_ns[j]*Math.cos(j*w_0*i)+b_ns[j]*Math.sin(j*w_0*i);
+    }
+    fxn.push([i,val]);
+  }
+  return fxn;
+}
+
 function highest_and_lowest(pulse){
-  var pattern = pulse.split(' ');
   var range = {highest: -1000, lowest: 1000};
-  for(var i = 0; i < pattern.length; i++){
-    var amplitude = parseInt(pattern[i]);
+  for(var i = 0; i < pulse.length; i++){
+    var amplitude = pulse[i];
     if(amplitude > range.highest){
       range.highest = amplitude;
     }
