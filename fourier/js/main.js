@@ -35,7 +35,7 @@ function updateGraph(){
 
   var tmin = nanDefault(parseFloat($('.tmin').val()),-1);
   var tmax = nanDefault(parseFloat($('.tmax').val()),2);
-  var n_val = nanDefault(parseFloat($('.nval').val()),0);
+  var n_val = nanDefault(parseFloat($('.nval').val()),-1);
 
   var range = highest_and_lowest(pulse);
   var pulsesF = generatePulseF(pulse,period,tmin,tmax);
@@ -49,7 +49,7 @@ function updateGraph(){
     {data: baseline, color: 'black', shadowSize: 0},
     {data: yaxis, color: 'black', shadowSize: 0}];
   
-  if(n_val > 0){
+  if(n_val >= 0){
     graphs.push({data: fourier});
   }
 
