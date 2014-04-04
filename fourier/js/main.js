@@ -1,9 +1,29 @@
 $(function(){
   var graph = $('.plot');
+  var step = 1;
+  var intervalID = -1;
   graph.height(graph.width()/1.5);
   updateGraph(); 
   $('.update-graph').click(function(){
     updateGraph();
+  });
+
+  $('.step').click(function(){
+    if(intervalID != -1){
+      clearInterval(intervalID);
+      intervalID = -1;
+    }
+    step = 1;
+    $('.nval').val(1);
+    intervalID = setInterval(function(){
+      updateGraph();
+      step++;
+      $('.nval').val(step);
+      if(step == 50){
+        clearInterval(intervalID);
+        intervalID = -1;
+      }
+    },250);
   });
 });
 
