@@ -2,7 +2,7 @@ $(function(){
   var graph = $('.plot');
   var step = 1;
   var intervalID = -1;
-  graph.height(graph.width()/1.5);
+  graph.height(graph.width()/1.75);
   updateGraph(); 
   $('.update-graph').click(function(){
     updateGraph();
@@ -23,7 +23,7 @@ $(function(){
         clearInterval(intervalID);
         intervalID = -1;
       }
-    },250);
+    },500);
   });
 });
 
@@ -43,7 +43,7 @@ function updateGraph(){
   var fourier = generateFourier(pulse,period,tmin,tmax,n_val);
 
   var baseline = [[tmin,0],[tmax,0]];
-  var yaxis = [[0,range.lowest-1],[0,range.highest+1]];
+  var yaxis = [[0,range.lowest-0.5],[0,range.highest+0.5]];
   var graphs = [{data: pulsesF, color: 'lightblue'},
     {data: pulsesB, color: 'lightblue'},
     {data: baseline, color: 'black', shadowSize: 0},
@@ -56,7 +56,7 @@ function updateGraph(){
   for(var i = tmin; i <= tmax; i++){
     var r = Math.floor(i);
     if(r != 0){
-      graphs.push({data: [[r,range.lowest-1],[r,range.highest+1]], color: 'grey', shadowSize: 0, dashes: {show: true}, lines: {show: false}});
+      graphs.push({data: [[r,range.lowest-0.5],[r,range.highest+0.5]], color: 'grey', shadowSize: 0, dashes: {show: true}, lines: {show: false}});
     }
   }
   var plot = $.plot('.plot',graphs, {
@@ -83,8 +83,8 @@ function updateGraph(){
       axisLabelUseCanvas: true,
       axisLabelFontSizePixels: 25,
       font: {size: 20, color: 'black'},
-      min: range.lowest-1,
-      max: range.highest+1,
+      min: range.lowest-0.5,
+      max: range.highest+0.5,
     },
     grid: {labelMargin: 10, borderWidth: 0},
     });
