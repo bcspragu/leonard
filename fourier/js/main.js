@@ -33,10 +33,10 @@ function updateGraph(){
     graphs.push({data: fourier});
   }
 
-  for(var i = tmin; i < tmax; i++){
+  for(var i = tmin; i <= tmax; i++){
     var r = Math.floor(i);
-    if(r > tmin && r < tmax && r != 0){
-      graphs.push({data: [[r,range.lowest-1],[r,range.highest+1]], color: 'red', shadowSize: 0, dashes: {show: true}, lines: {show: false}});
+    if(r != 0){
+      graphs.push({data: [[r,range.lowest-1],[r,range.highest+1]], color: 'grey', shadowSize: 0, dashes: {show: true}, lines: {show: false}});
     }
   }
   var plot = $.plot('.plot',graphs, {
