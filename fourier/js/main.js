@@ -15,7 +15,7 @@ function updateGraph(){
 
   var tmin = nanDefault(parseFloat($('.tmin').val()),-1);
   var tmax = nanDefault(parseFloat($('.tmax').val()),2);
-  var n_val = nanDefault(parseFloat($('.nval').val()),1);
+  var n_val = nanDefault(parseFloat($('.nval').val()),0);
 
   var range = highest_and_lowest(pulse);
   var pulsesF = generatePulseF(pulse,period,tmin,tmax);
@@ -24,10 +24,22 @@ function updateGraph(){
 
   var baseline = [[tmin,0],[tmax,0]];
   var yaxis = [[0,range.lowest-1],[0,range.highest+1]];
+  var graphs = [{data: pulsesF, color: 'lightblue'},
+    {data: pulsesB, color: 'lightblue'},
+    {data: baseline, color: 'black', shadowSize: 0},
+    {data: yaxis, color: 'black', shadowSize: 0}];
   
-  var plot = $.plot('.plot',[{data: pulsesF, color: 'lightblue'},{data: pulsesB, color: 'lightblue'},{data: fourier},
-      {data: baseline, color: 'black', shadowSize: 0},
-      {data: yaxis, color: 'black', shadowSize: 0}], {
+  if(n_val > 0){
+    graphs.push({data: fourier});
+  }
+
+  for(var i = tmin; i < tmax; i++){
+    var r = Math.floor(i);
+    if(r > tmin && r < tmax && r != 0){
+      graphs.push({data: [[r,range.lowest-1],[r,range.highest+1]], color: 'red', shadowSize: 0, dashes: {show: true}, lines: {show: false}});
+    }
+  }
+  var plot = $.plot('.plot',graphs, {
     series: {
       lines: {
         show: true
@@ -36,9 +48,10 @@ function updateGraph(){
     xaxis: {
       show: true,
       axisLabel: 't/T',
-      axisLabelPadding: 10,
+      axisLabelPadding: 20,
       axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'},
+      axisLabelFontSizePixels: 25,
+      font: {size: 20, color: 'black'},
       min: tmin,
       max: tmax,
       transform: function(x){return x/period;}
@@ -46,9 +59,10 @@ function updateGraph(){
     yaxis: {
       show: true,
       axisLabel: 'f(t)',
-      axisLabelPadding: 10,
+      axisLabelPadding: 20,
       axisLabelUseCanvas: true,
-      font: {size: 15, color: 'black'},
+      axisLabelFontSizePixels: 25,
+      font: {size: 20, color: 'black'},
       min: range.lowest-1,
       max: range.highest+1,
     },
