@@ -26,7 +26,7 @@ function updateGraph(){
   
   if(n_val >= 0){
     graphs.push({data: fourier[0]});
-    graphs.push({data: fourier[1], lines: {fill: true}});
+    graphs.push({data: fourier[1], lines: {fill: true}, color: 'red'});
   }
 
   
