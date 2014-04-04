@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+      <!--[if lt IE 7]>
+          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <h2 class="text-center">Visualizing functions</h2>
+      <div class="row">
+        <div class="small-4 columns">
+          <label>Pulse Function</label>
+          <input type="text" class="pulse" placeholder="Pulse Function" value="0 1 0 0 0" />
+        </div>
+        <div class="small-4 columns">
+          <label>n</label>
+          <input type="text" class="nval" placeholder="n" value="1" />
+        </div>
+        <div class="small-4 columns">
+          <a href="#" class="button update-graph expand">Update</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="small-12 columns plot"></div>
+      </div>
+      <p class="text-center note"></p>
+      <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+      <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+      <script src="js/vendor/jquery.flot.js"></script>
+      <script src="js/vendor/jquery.flot.axislabels.js"></script>
+      <script src="js/vendor/jquery.flot.dashes.js"></script>
+      <script src="js/plugins.js"></script>
+      <script src="js/foundation.min.js"></script>
+      <script>
+        $(document).foundation();
+      </script>
+      <script src="js/main.js"></script>
+    </body>
+</html>
