@@ -1,10 +1,22 @@
 $(function(){
   var graph = $('.plot');
-  graph.height(graph.width()/1.75);
+  graph.height(graph.width()/2);
   updateGraph(); 
 
   $('.update-graph').click(function(){
     updateGraph();
+  });
+
+  $('.coefficient').click(function(e){
+    e.preventDefault();
+    var t = $(this);
+    t.toggleClass('alert');
+    if(t.hasClass('alert')){
+      t.text('$B_n\\text{ Coefficient}$');
+    }else{
+      t.text('$A_n\\text{ Coefficient}$');
+    }
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   });
 });
 
@@ -13,12 +25,13 @@ function updateGraph(){
   var pulse = $('.pulse').val() || "0 1 0 0 0";
   pulse = pulseToNum(pulse);
   var period = nanDefault(parseFloat($('.period').val()),1);
+  var bn = $('.coefficient').hasClass('alert');
 
   var n_val = nanDefault(parseFloat($('.nval').val()),-1);
 
   var range = highest_and_lowest(pulse);
   var pulses = generatePulse(pulse);
-  var fourier = generateFourier(pulse,n_val);
+  var fourier = generateFourier(pulse,n_val,bn);
 
   var baseline = [[0,0],[1,0]];
   var graphs = [{data: pulses, color: 'lightblue'},
@@ -26,7 +39,9 @@ function updateGraph(){
   
   if(n_val >= 0){
     graphs.push({data: fourier[0]});
-    graphs.push({data: fourier[1], lines: {fill: true}, color: 'red'});
+    for(var i = 1; i < fourier.length; i++){
+      graphs.push({data: fourier[i], lines: {fill: true}, color: 'red'});
+    }
   }
 
   
@@ -84,31 +99,43 @@ function generatePulse(pattern){
   return pulses;
 }
 
-function generateFourier(pulses,n){
-  var a_n = 0;
-  var b_n = 0;
+function generateFourier(pulses,n,bn){
+  var coef = 0;
   var w_0 = 2*Math.PI;
+  var trig_fn;
 
-  for(var j = 0; j < pulses.length; j++){
-    a_n += pulses[j]*(Math.sin(n*w_0*(j+1)/pulses.length)-Math.sin(n*w_0*j/pulses.length));
-    //b_n += pulses[j]*(Math.cos(n*w_0*j/pulses.length)-Math.cos(n*w_0*(j+1)/pulses.length));
+  if(bn){
+    for(var j = 0; j < pulses.length; j++){
+      coef += pulses[j]*(Math.cos(n*w_0*j/pulses.length)-Math.cos(n*w_0*(j+1)/pulses.length));
+    }
+    trig_fn = function(t){
+      return Math.sin(n*w_0*t);
+    };
+  }else{
+    for(var j = 0; j < pulses.length; j++){
+      coef += pulses[j]*(Math.sin(n*w_0*(j+1)/pulses.length)-Math.sin(n*w_0*j/pulses.length));
+    }
+    trig_fn = function(t){
+      return Math.cos(n*w_0*t);
+    };
   }
 
-  a_n *= 2/(w_0*n);
-  b_n *= 2/(w_0*n);
+  coef *= 2/(w_0*n);
 
-  console.log(a_n)
   var factor = 1000;
-  var fxn = [];
-  var fxn2 = [];
+  var fxns = [[],[]];
+  var index = 1;
   for(var i = 0; i < 1; i += 1/factor){
-    fxn.push([i,a_n*Math.cos(n*w_0*i)]);
-    //fxn.push([i,a_n*Math.cos(n*w_0*i)+b_n*Math.sin(n*w_0*i)]);
+    fxns[0].push([i,coef*trig_fn(i)]);
+    if(i != 0 && pulses[Math.floor((i-1/factor)*pulses.length)] == 0 && pulses[Math.floor(i*pulses.length)] != 0){
+      index++;
+      fxns[index] = [];
+    }
     if(pulses[Math.floor(i*pulses.length)] != 0){
-      fxn2.push([i,pulses[Math.floor(i*pulses.length)]*a_n*Math.cos(n*w_0*i)+b_n*Math.sin(n*w_0*i)])
+      fxns[index].push([i,pulses[Math.floor(i*pulses.length)]*coef*trig_fn(i)]);
     }
   }
-  return [fxn,fxn2];
+  return fxns;
 }
 
 function highest_and_lowest(pulse){

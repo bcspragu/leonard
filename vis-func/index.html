@@ -21,17 +21,20 @@
       <!--[if lt IE 7]>
           <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
       <![endif]-->
-      <h2 class="text-center">Visualizing functions</h2>
+      <h2 class="text-center">Visualizing Fourier coefficients</h2>
       <div class="row">
-        <div class="small-4 columns">
+        <div class="small-3 columns">
           <label>Pulse Function</label>
           <input type="text" class="pulse" placeholder="Pulse Function" value="0 1 0 0 0" />
         </div>
-        <div class="small-4 columns">
+        <div class="small-3 columns">
           <label>n</label>
           <input type="text" class="nval" placeholder="n" value="1" />
         </div>
-        <div class="small-4 columns">
+        <div class="small-3 columns">
+          <a href="#" class="button coefficient expand">$A_n\text{ Coefficient}$</a>
+        </div>
+        <div class="small-3 columns">
           <a href="#" class="button update-graph expand">Update</a>
         </div>
       </div>
@@ -46,6 +49,12 @@
       <script src="js/vendor/jquery.flot.dashes.js"></script>
       <script src="js/plugins.js"></script>
       <script src="js/foundation.min.js"></script>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      </script>
+      <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      </script>
       <script>
         $(document).foundation();
       </script>
