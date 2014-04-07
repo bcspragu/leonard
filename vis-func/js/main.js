@@ -45,7 +45,8 @@ function updateGraph(){
       graphs.push({data: fourier[i], lines: {fill: true}, color: 'red'});
     }
   }else if(n_val == 0){
-    graphs.push({data: [[0,avg],[1,avg]], color: 'red'});
+    graphs[0].color = 'red';
+    graphs[0].lines = {fill: true};
   }
 
   
@@ -85,6 +86,8 @@ function updateGraph(){
     }
   }else if(n_val == 0){
     note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
+  }else{
+    note.text('');
   }
   MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
