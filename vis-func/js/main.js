@@ -36,8 +36,7 @@ function updateGraph(){
   var avg = averagePulse(pulse);
 
   var baseline = [[0,0],[1,0]];
-  var graphs = [{data: pulses, color: 'lightblue'},
-    {data: baseline, color: 'black', shadowSize: 0}];
+  var graphs = [{data: baseline, color: 'black', shadowSize: 0},{data: pulses, color: 'lightblue'}];
   
   if(n_val > 0){
     graphs.push({data: fourier[0]});
@@ -45,8 +44,8 @@ function updateGraph(){
       graphs.push({data: fourier[i], lines: {fill: true}, color: 'red'});
     }
   }else if(n_val == 0){
-    graphs[0].color = 'red';
-    graphs[0].lines = {fill: true};
+    graphs[1].color = 'red';
+    graphs[1].lines = {fill: true};
   }
 
   
