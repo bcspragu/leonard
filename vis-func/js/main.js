@@ -145,19 +145,14 @@ function generateFourier(pulses,n,bn){
   }
 
   var factor = 1000;
-  var fxns = [[],[]];
+  var fxn1 = [];
+  var fxn2 = [];
   var index = 1;
   for(var i = 0; i < 1; i += 1/factor){
-    fxns[0].push([i,trig_fn(i)]);
-    if(i != 0 && pulses[Math.floor((i-1/factor)*pulses.length)] == 0 && pulses[Math.floor(i*pulses.length)] != 0){
-      index++;
-      fxns[index] = [];
-    }
-    if(pulses[Math.floor(i*pulses.length)] != 0){
-      fxns[index].push([i,pulses[Math.floor(i*pulses.length)]*trig_fn(i)]);
-    }
+    fxn1.push([i,trig_fn(i)]);
+    fxn2.push([i,pulses[Math.floor(i*pulses.length)]*trig_fn(i)]);
   }
-  return fxns;
+  return [fxn1,fxn2];
 }
 
 function highest_and_lowest(pulse){
