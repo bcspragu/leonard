@@ -32,7 +32,7 @@ function updateGraph(){
   var coef = generateCoef(pulse,n_val,bn);
   var range = highest_and_lowest(pulse);
   var pulses = generatePulse(pulse);
-  var fourier = generateFourier(pulse,n_val,bn,coef);
+  var fourier = generateFourier(pulse,n_val,bn);
   var avg = averagePulse(pulse);
 
   var baseline = [[0,0],[1,0]];
@@ -79,9 +79,9 @@ function updateGraph(){
   var note = $('.note');
   if(n_val > 0){
     if(bn){
-      note.text("\\[\\large{b_n = "+coef.toFixed(5)+"}\\]");
+      note.text("\\[\\large{b_"+n_val+" = "+coef.toFixed(5)+"}\\]");
     }else{
-      note.text("\\[\\large{a_n = "+coef.toFixed(5)+"}\\]");
+      note.text("\\[\\large{a_"+n_val+" = "+coef.toFixed(5)+"}\\]");
     }
   }else if(n_val == 0){
     note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
@@ -128,7 +128,7 @@ function generateCoef(pulses,n,bn){
   }
   return coef*2/(w_0*n);
 }
-function generateFourier(pulses,n,bn,coef){
+function generateFourier(pulses,n,bn){
   var trig_fn;
   var w_0 = 2*Math.PI;
 
@@ -152,7 +152,7 @@ function generateFourier(pulses,n,bn,coef){
       fxns[index] = [];
     }
     if(pulses[Math.floor(i*pulses.length)] != 0){
-      fxns[index].push([i,pulses[Math.floor(i*pulses.length)]*coef*trig_fn(i)]);
+      fxns[index].push([i,pulses[Math.floor(i*pulses.length)]*trig_fn(i)]);
     }
   }
   return fxns;
