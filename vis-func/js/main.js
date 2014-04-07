@@ -33,16 +33,19 @@ function updateGraph(){
   var range = highest_and_lowest(pulse);
   var pulses = generatePulse(pulse);
   var fourier = generateFourier(pulse,n_val,bn,coef);
+  var avg = averagePulse(pulse);
 
   var baseline = [[0,0],[1,0]];
   var graphs = [{data: pulses, color: 'lightblue'},
     {data: baseline, color: 'black', shadowSize: 0}];
   
-  if(n_val >= 0){
+  if(n_val > 0){
     graphs.push({data: fourier[0]});
     for(var i = 1; i < fourier.length; i++){
       graphs.push({data: fourier[i], lines: {fill: true}, color: 'red'});
     }
+  }else if(n_val == 0){
+    graphs.push({data: [[0,avg],[1,avg]], color: 'red'});
   }
 
   
@@ -74,10 +77,14 @@ function updateGraph(){
     grid: {labelMargin: 10, borderWidth: 0},
     });
   var note = $('.note');
-  if(bn){
-    note.text("\\[\\large{b_n = "+coef.toFixed(5)+"}\\]");
-  }else{
-    note.text("\\[\\large{a_n = "+coef.toFixed(5)+"}\\]");
+  if(n_val > 0){
+    if(bn){
+      note.text("\\[\\large{b_n = "+coef.toFixed(5)+"}\\]");
+    }else{
+      note.text("\\[\\large{a_n = "+coef.toFixed(5)+"}\\]");
+    }
+  }else if(n_val == 0){
+    note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
   }
   MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
@@ -139,7 +146,7 @@ function generateFourier(pulses,n,bn,coef){
   var fxns = [[],[]];
   var index = 1;
   for(var i = 0; i < 1; i += 1/factor){
-    fxns[0].push([i,coef*trig_fn(i)]);
+    fxns[0].push([i,trig_fn(i)]);
     if(i != 0 && pulses[Math.floor((i-1/factor)*pulses.length)] == 0 && pulses[Math.floor(i*pulses.length)] != 0){
       index++;
       fxns[index] = [];
@@ -163,4 +170,12 @@ function highest_and_lowest(pulse){
     }
   }
   return range;
+}
+
+function averagePulse(pulses){
+  var sum = 0;
+  for(var i = 0; i < pulses.length; i++){
+    sum += pulses[i];
+  }
+  return sum/pulses.length;
 }
