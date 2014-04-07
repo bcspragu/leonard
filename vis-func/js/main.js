@@ -12,9 +12,9 @@ $(function(){
     var t = $(this);
     t.toggleClass('alert');
     if(t.hasClass('alert')){
-      t.text('$B_n\\text{ Coefficient}$');
+      t.text('$b_n\\text{ Coefficient}$');
     }else{
-      t.text('$A_n\\text{ Coefficient}$');
+      t.text('$a_n\\text{ Coefficient}$');
     }
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   });
@@ -29,9 +29,10 @@ function updateGraph(){
 
   var n_val = nanDefault(parseFloat($('.nval').val()),-1);
 
+  var coef = generateCoef(pulse,n_val,bn);
   var range = highest_and_lowest(pulse);
   var pulses = generatePulse(pulse);
-  var fourier = generateFourier(pulse,n_val,bn);
+  var fourier = generateFourier(pulse,n_val,bn,coef);
 
   var baseline = [[0,0],[1,0]];
   var graphs = [{data: pulses, color: 'lightblue'},
@@ -72,7 +73,13 @@ function updateGraph(){
     },
     grid: {labelMargin: 10, borderWidth: 0},
     });
-
+  var note = $('.note');
+  if(bn){
+    note.text("\\[\\large{b_n = "+coef.toFixed(5)+"}\\]");
+  }else{
+    note.text("\\[\\large{a_n = "+coef.toFixed(5)+"}\\]");
+  }
+  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
 function nanDefault(value,def){
@@ -99,28 +106,34 @@ function generatePulse(pattern){
   return pulses;
 }
 
-function generateFourier(pulses,n,bn){
-  var coef = 0;
+function generateCoef(pulses,n,bn){
+  var coef = 0
   var w_0 = 2*Math.PI;
-  var trig_fn;
 
   if(bn){
     for(var j = 0; j < pulses.length; j++){
       coef += pulses[j]*(Math.cos(n*w_0*j/pulses.length)-Math.cos(n*w_0*(j+1)/pulses.length));
     }
-    trig_fn = function(t){
-      return Math.sin(n*w_0*t);
-    };
   }else{
     for(var j = 0; j < pulses.length; j++){
       coef += pulses[j]*(Math.sin(n*w_0*(j+1)/pulses.length)-Math.sin(n*w_0*j/pulses.length));
     }
+  }
+  return coef*2/(w_0*n);
+}
+function generateFourier(pulses,n,bn,coef){
+  var trig_fn;
+  var w_0 = 2*Math.PI;
+
+  if(bn){
+    trig_fn = function(t){
+      return Math.sin(n*w_0*t);
+    };
+  }else{
     trig_fn = function(t){
       return Math.cos(n*w_0*t);
     };
   }
-
-  coef *= 2/(w_0*n);
 
   var factor = 1000;
   var fxns = [[],[]];
