@@ -35,6 +35,12 @@ function updateGraph(){
   var fourier = generateFourier(pulse,n_val,bn);
   var avg = averagePulse(pulse);
 
+  var markings = [];
+
+  for(var i = 0; i <= pulse.length; i++){
+    markings.push(i/pulse.length);
+  }
+
   var baseline = [[0,0],[1,0]];
   var graphs = [{data: baseline, color: 'black', shadowSize: 0},{data: pulses, color: 'lightblue'}];
   
@@ -64,7 +70,8 @@ function updateGraph(){
       font: {size: 20, color: 'black'},
       min: 0,
       max: 1,
-      transform: function(x){return x/period;}
+      transform: function(x){return x/period;},
+      ticks: markings
     },
     yaxis: {
       show: true,
@@ -74,14 +81,17 @@ function updateGraph(){
       axisLabelFontSizePixels: 25,
       font: {size: 20, color: 'black'}
     },
-    grid: {labelMargin: 10, borderWidth: 0},
+    grid: {
+      labelMargin: 10,
+      borderWidth: 0
+    }
     });
   var note = $('.note');
   if(n_val > 0){
     if(bn){
-      note.text("\\[\\large{b_"+n_val+" = "+coef.toFixed(5)+"}\\]");
+      note.text("\\[\\large{b_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
     }else{
-      note.text("\\[\\large{a_"+n_val+" = "+coef.toFixed(5)+"}\\]");
+      note.text("\\[\\large{a_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
     }
   }else if(n_val == 0){
     note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
