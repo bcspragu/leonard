@@ -12,6 +12,16 @@ $(function(){
     t.toggleClass('alert');
     t.text(t.hasClass('alert') ? 'Sin' : 'Cos');
   });
+
+  $('.toggle').click(function(){
+    $(this).toggleClass('success');
+    if($(this).text() == "Show Note") {
+      $(this).text('Hide Note');
+    } else {
+      $(this).text('Show Note');
+    }
+    $('.footnote').toggleClass('hidden');
+  });
 });
 
 

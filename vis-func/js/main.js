@@ -50,8 +50,12 @@ function updateGraph(){
       graphs.push({data: fourier[i], lines: {fill: true}, color: 'red'});
     }
   }else if(n_val == 0){
-    graphs[1].color = 'red';
-    graphs[1].lines = {fill: true};
+    if (!bn) {
+
+    } else {
+      graphs[1].color = 'red';
+      graphs[1].lines = {fill: true};
+    }
   }
 
   
@@ -87,14 +91,30 @@ function updateGraph(){
     }
     });
   var note = $('.note');
+
+  if (coef < 0 && coef > -Math.pow(10,-13)) {
+    coef = 0;
+  }
+
   if(n_val > 0){
-    if(bn){
-      note.text("\\[\\large{b_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
-    }else{
-      note.text("\\[\\large{a_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
+    if (coef < Math.pow(10,-5) && coef > -Math.pow(10,-5) && coef != 0) {
+      var noted = "\\[\\large{" + (bn ? "b" : "a");
+      noted += "_{"+n_val+"}\\text{ is smaller than 1E-5}}\\]";
+      note.text(noted);
+    } else {
+      if(bn){
+        note.text("\\[\\large{b_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
+      }else{
+        note.text("\\[\\large{a_{"+n_val+"} = "+coef.toFixed(5)+"}\\]");
+      }
     }
   }else if(n_val == 0){
-    note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
+    if(bn){
+      note.text("\\[\\large{b_0\\text{ does not exist.}}\\]");
+    }else{
+      note.text("\\[\\large{a_0 = "+avg.toFixed(5)+"}\\]");
+    }
+
   }else{
     note.text('');
   }

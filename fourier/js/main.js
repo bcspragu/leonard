@@ -2,7 +2,7 @@ $(function(){
   var graph = $('.plot');
   var step = 1;
   var intervalID = -1;
-  graph.height(graph.width()/1.75);
+  graph.height(graph.width()/2);
   updateGraph(); 
   $('.update-graph').click(function(){
     updateGraph();
@@ -14,7 +14,7 @@ $(function(){
       intervalID = -1;
     }
     step = 1;
-    $('.nval').val(1);
+    $('.nval').val(0);
     intervalID = setInterval(function(){
       updateGraph();
       step++;
@@ -23,7 +23,7 @@ $(function(){
         clearInterval(intervalID);
         intervalID = -1;
       }
-    },500);
+    },1000);
   });
 });
 
@@ -96,7 +96,7 @@ function nanDefault(value,def){
 }
 
 function pulseToNum(pulse){
-  var pattern = pulse.split(' ');
+  var pattern = pulse.replace(/ +/g, " ").split(' ');
   for(var i = 0; i < pattern.length; i++){
     pattern[i] = parseFloat(pattern[i]);
   }
