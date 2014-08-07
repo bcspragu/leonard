@@ -6,6 +6,16 @@ $(function(){
   $('.update-graph').click(function(){
     updateGraph();
   });
+
+  $('.toggle').click(function(){
+    $(this).toggleClass('success');
+    if($(this).text() == "Show Note") {
+      $(this).text('Hide Note');
+    } else {
+      $(this).text('Show Note');
+    }
+    $('.note').toggleClass('hidden');
+  });
 });
 
 

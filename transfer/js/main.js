@@ -24,7 +24,7 @@ function updateGraph(){
 
   var base = [];
 
-  for(var i = 0; i < 10000; i += 1){
+  for(var i = 0; i < 5000; i += 1){
     base.push([i,Math.sqrt((Math.pow(r2,2)+Math.pow(l2*i-1/(c2*i),2))/(Math.pow(r1+r2,2)+Math.pow((l1+l2)*i-(1/c1+1/c2)/i,2)))]);
   }
 
@@ -47,6 +47,10 @@ function updateGraph(){
   if($('.log-log').hasClass('success')){
     options.yaxes[0].transform = function(v) {return Math.log(v+0.0001); /*move away from zero*/};
     options.yaxes[0].tickDecimals = 3;
+    options.xaxes[0].transform = function(v) {return Math.log(v+0.0001); /*move away from zero*/};
+    options.xaxes[0].tickDecimals = 3;
+    options.yaxes[0].ticks = 3;
+    options.xaxes[0].ticks = 3;
   }else{
     options.yaxes[0].min = 0;
     options.yaxes[0].max = 0;

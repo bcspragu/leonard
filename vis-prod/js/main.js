@@ -75,7 +75,7 @@ function updateGraph(){
     }
       });
 
-  var note_string = 'The product of two sinusoids can always be written as the sum of two sinusoids. In this case, ';
+  var note_string = 'In this case, ';
   //Function 1
   note_string += ampString(amp1)+'cos('+coef1+'t'+degString(deg1);
   note_string += ' * ';
@@ -101,7 +101,7 @@ function updateGraph(){
     note_string += ampString(amp1*amp2*0.5)+'cos('+phi+'°) + ';
   }
   note_string += ampString(amp1*amp2*0.5)+'cos('+coef4+'t'+degString(fixDeg(deg1+deg2))+'.';
-  $('.note').text(note_string);
+  $('.note2').text(note_string);
 }
 
 function nanDefault(value,def){
@@ -153,7 +153,7 @@ function genGraph(type,glob){
   }
 
   if(type == "Factor 2"){
-    var incrememnt = Math.abs(1/glob.o2);
+    var increment = Math.abs(1/glob.o2);
     for(var i = 0; i < glob.t*1000; i += increment){
       data.push([i,glob.a2*Math.cos(glob.o2*i/1000+glob.d2*Math.PI/180)]);
     }

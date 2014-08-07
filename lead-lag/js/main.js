@@ -6,12 +6,22 @@ $(function(){
   $('.update-graph').click(function(){
     updateGraph();
   });
+
+  $('.toggle').click(function(){
+    $(this).toggleClass('success');
+    if($(this).text() == "Show Note") {
+      $(this).text('Hide Note');
+    } else {
+      $(this).text('Show Note');
+    }
+    $('.note').toggleClass('hidden');
+  });
 });
 
 
 function updateGraph(){
-  var amp_min = -1;
-  var amp_max = 1;
+  var amp_min = -1.2;
+  var amp_max = 1.2;
   var omega = nanDefault(parseFloat($('.omega').val()),50);
   var tmin = nanDefault(parseFloat($('.tmin').val()),-0.2);
   var tmax = nanDefault(parseFloat($('.tmax').val()),0.3);
@@ -21,8 +31,8 @@ function updateGraph(){
   var vertical = [];
   var non_zero_axis = tmin < 0 && tmax >= 0;
   if(non_zero_axis){
-    vertical.push([0,-1]);
-    vertical.push([0,1]);
+    vertical.push([0,-1.2]);
+    vertical.push([0,1.2]);
   }
   var coefficient = omega == 1 ? "" : omega;
   var base_label = "cos("+coefficient+"t)";
@@ -77,7 +87,7 @@ function updateGraph(){
     grid: grid
       });
   var ll = leadLag(fixDeg(deg),omega);
-  $('.note').text('The function '+shifted_label+'  is '+ll.ll+' '+base_label+' by '+ll.delay+'  ms');
+  $('.note').text('The function '+shifted_label+'  is '+ll.ll+' '+base_label+' by '+ll.delay+'  ms.');
 }
 
 function nanDefault(value,def){

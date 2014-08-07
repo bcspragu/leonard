@@ -86,7 +86,7 @@ function updateGraph(){
     }
       });
 
-  var note_string = 'The sum of two sinusoids with the same frequency is a single sinusoid with the same frequency. In this case, '
+  var note_string = 'In this case, '
   //Function 1
   note_string += ampString(amp1)+'cos('+coef1+'t'+degString(deg1);
   note_string += ' + ';
@@ -96,8 +96,8 @@ function updateGraph(){
   var amp = generateAmp(glob.a1,glob.a2,glob.d1,glob.d2);
   amp = amp == 1 ? "" : amp;
   var angle = generateAngle(glob.a1,glob.a2,glob.d1,glob.d2);
-  note_string += ampString(amp.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+").";
-  $('.note').text(note_string);
+  note_string += ampString(amp.toFixed(3))+"cos("+coef1+"t"+degString(angle.toFixed(3))+".";
+  $('.note2').text(note_string);
 }
 
 function nanDefault(value,def){

@@ -23,31 +23,33 @@
       <![endif]-->
       <h2 class="text-center">Visualizing p(t)</h2>
       <div class="row">
-        <div class="small-4 columns">
+        <div class="small-2 columns">
           <div class="row">
-            <div class="small-4 columns">
-              <label>ω1 (rad/s)</label>
-              <input type="text" class="omega1" placeholder="Omega" value="50" />
+            <div class="small-12 columns">
+              <label>ω (rad/s)</label>
+              <input type="text" class="omega" placeholder="Omega" value="50" />
             </div>
-            <div class="small-4 columns">
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
               <label>Amplitude 1</label>
               <input type="text" class="amp1" placeholder="Amplitude" value="1" />
             </div>
-            <div class="small-4 columns">
-              <label>ϕ2 (deg)</label>
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
+              <label>ϕ1 (deg)</label>
               <input type="text" class="deg1" placeholder="Deg" value="0" />
             </div>
           </div>
           <div class="row">
-            <div class="small-4 columns">
-              <label>ω2 (rad/s)</label>
-              <input type="text" class="omega2" placeholder="Omega" value="50" />
-            </div>
-            <div class="small-4 columns">
+            <div class="small-12 columns">
               <label>Amplitude 2</label>
               <input type="text" class="amp2" placeholder="Amplitude" value="1" />
             </div>
-            <div class="small-4 columns">
+          </div>
+          <div class="row">
+            <div class="small-12 columns">
               <label>ϕ2 (deg)</label>
               <input type="text" class="deg2" placeholder="Deg" value="0" />
             </div>
@@ -58,18 +60,18 @@
             </div>
           </div>
         </div>
-        <div class="small-8 columns">
-          <div class="row">
-            <div class="small-12 small-centered columns plot1"></div>
-          </div>
-          <div class="row">
-            <div class="small-12 small-centered columns plot2"></div>
-          </div>
-          <div class="row">
-            <div class="small-12 small-centered columns plot3"></div>
-          </div>
+        <div class="small-10 columns">
+        <div class="row">
+          <div class="small-12 columns plot1"></div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns plot2"></div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns plot3"></div>
         </div>
       </div>
+    </div>
       <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
       <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
       <script src="js/vendor/jquery.flot.js"></script>
