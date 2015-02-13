@@ -184,6 +184,8 @@ function generateAngle(a1,a2,p1,p2){
   var b = a1*Math.sin(p1*Math.PI/180)+a2*Math.sin(p2*Math.PI/180)
   if(a == 0){
     return 90;
+  } else if (a < 0) {
+    return fixDeg(Math.atan(b/a)*180/Math.PI + 180)
   }
   return fixDeg(Math.atan(b/a)*180/Math.PI)
 }
