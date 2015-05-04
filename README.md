@@ -1,4 +1,4 @@
-# leonard
+# Circuits I/II Visualizations
 A collection of visualizations for UMass Professor Leonard for use in Circuits I/II
 
 ## Usage
